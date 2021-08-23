@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { StyleSheet, Image, View, Text } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
+import { Image } from "react-native-elements";
 import T from "prop-types";
 import styled from "styled-components/native";
 import compose from "./utils/compose";
@@ -20,7 +21,7 @@ const Container = styled.View`
 
 const Img = styled.Image`
   display: flex;
-  width: 100%;
+  width: 200;
 `;
 
 const Items = styled.View`
@@ -205,12 +206,12 @@ export default compose(
           const value = selector.methods[methodName](this.props.value, e);
 
           if (typeof value === "undefined") {
-            // if (process.env.NODE_ENV !== "production") {
-            //   console.error(`
-            //   ${methodName} of selector type ${this.props.type} returned undefined.
-            //   Make sure to explicitly return the previous state
-            // `);
-            // }
+            if (process.env.NODE_ENV !== "production") {
+              console.error(`
+            ${methodName} of selector type ${this.props.type} returned undefined.
+            Make sure to explicitly return the previous state
+          `);
+            }
           } else {
             this.props.onChange(value);
           }
@@ -241,14 +242,13 @@ export default compose(
         renderEditor,
         renderOverlay,
         allowTouch,
+        handlePointClick,
       } = props;
 
       const topAnnotationAtMouse = this.getTopAnnotationAt(
         this.props.relativeMousePos.x,
         this.props.relativeMousePos.y
       );
-
-      console.log(isMouseHovering.innerRef);
 
       return (
         <Container
@@ -258,23 +258,28 @@ export default compose(
           onTouchCancel={this.onTargetTouchLeave}
           allowTouch={allowTouch}
         >
-          <Img
+          <Image
+            source={{ uri: props.source }}
+            style={{
+              width: props.imageSize.width,
+              height: props.imageSize.height,
+            }}
             className={props.className}
-            style={props.style}
             alt={props.alt}
-            src={props.src}
+            source={{ uri: props.source }}
             draggable={false}
             innerRef={this.setInnerRef}
           />
           <Items>
             {props.annotations.map((annotation) =>
               renderHighlight({
-                key: annotation.data.id,
+                key: annotation.id,
                 annotation,
                 active: this.shouldAnnotationBeActive(
                   annotation,
                   topAnnotationAtMouse
                 ),
+                handlePointClick,
               })
             )}
             {!props.disableSelector &&
@@ -300,7 +305,7 @@ export default compose(
             (annotation) =>
               this.shouldAnnotationBeActive(annotation, topAnnotationAtMouse) &&
               renderContent({
-                key: annotation.data.id,
+                key: annotation.id,
                 annotation: annotation,
               })
           )}

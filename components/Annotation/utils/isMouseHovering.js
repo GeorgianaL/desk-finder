@@ -19,13 +19,13 @@ const isMouseHovering =
         };
       }
 
-      componentDidMount() {
-        document.addEventListener("mousemove", this.onMouseMove);
-      }
+      // componentDidMount() {
+      //   document.addEventListener("mousemove", this.onMouseMove);
+      // }
 
-      componentWillUnmount() {
-        document.removeEventListener("mousemove", this.onMouseMove);
-      }
+      // componentWillUnmount() {
+      //   document.removeEventListener("mousemove", this.onMouseMove);
+      // }
 
       onMouseMove = (e) => {
         const elem = this.el;

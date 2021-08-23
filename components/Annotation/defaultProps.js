@@ -22,8 +22,13 @@ export default {
   renderEditor: ({ annotation, onChange, onSubmit }) => (
     <Editor annotation={annotation} onChange={onChange} onSubmit={onSubmit} />
   ),
-  renderHighlight: ({ key, annotation, active }) => (
-    <Point key={key} annotation={annotation} active={active} />
+  renderHighlight: ({ key, annotation, active, handlePointClick }) => (
+    <Point
+      key={key}
+      annotation={annotation}
+      active={active}
+      handlePointClick={handlePointClick}
+    />
   ),
   renderContent: ({ key, annotation }) => (
     <Content key={key} annotation={annotation} />

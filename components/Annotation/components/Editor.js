@@ -1,5 +1,5 @@
 import React from "react";
-import { View } from "react-native";
+import { View, Text } from "react-native";
 import styled from "styled-components/native";
 import TextEditor from "./TextEditor";
 
@@ -17,8 +17,6 @@ import TextEditor from "./TextEditor";
 const Container = styled.View`
   background: white;
   border-radius: 2px;
-  box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.2),
-    0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12);
   margin-top: 16px;
   transform-origin: top left;
   overflow: hidden;
@@ -50,7 +48,7 @@ function Editor(props) {
           })
         }
         onSubmit={props.onSubmit}
-        value={props.annotation.data && props.annotation.data.text}
+        value={props.annotation && props.annotation.occupiedBy}
       />
     </Container>
   );

@@ -1,19 +1,120 @@
-import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { Button } from "react-native-elements";
+import React from "react";
+import { connect } from "react-redux";
+import moment from "moment";
+import { StyleSheet, View } from "react-native";
+import { Text, Button } from "react-native-elements";
+import RoundedPage from "../../components/RoundedPage";
+import DeskDetails from "../../components/DeskDetails";
+import theme from "../../config/theme";
 
-const LandingPage = ({ navigation }) => (
-  <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-    <Button
-      title="Find a Desk"
-      onPress={() => navigation.navigate("Allocation")}
-    />
-    <Button
-      title="My Reservations"
-      type="clear"
-      onPress={() => navigation.navigate("Reservations")}
-    />
-  </View>
-);
+const styles = StyleSheet.create({
+  title: {
+    paddingBottom: 20,
+  },
+  heighlightedBox: {
+    alignSelf: "center",
+    paddingLeft: 60,
+    paddingBottom: 20,
+    backgroundColor: "#E4FFF0",
+    marginBottom: 40,
+    ...theme.shadow,
+  },
+  cornerButton: {
+    backgroundColor: theme.colors.white,
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: 0,
+    borderBottomRightRadius: 0,
+  },
+  cornerButtonTitle: {
+    color: theme.colors.secondary,
+  },
+  textContainer: {
+    paddingRight: 60,
+  },
+  text: {
+    paddingBottom: 10,
+    paddingTop: 10,
+  },
+  devider: {
+    height: 1,
+    backgroundColor: theme.colors.grey1,
+  },
+  blackButtonStyle: {
+    borderColor: theme.colors.black,
+    borderWidth: 2,
+    marginRight: 12,
+  },
+  blackTitleStyle: {
+    color: theme.colors.black,
+  },
+});
 
-export default LandingPage;
+const LandingPage = ({ navigation, username, reservation }) => {
+  return (
+    <RoundedPage>
+      <View style={styles.title}>
+        <Text h3>{`Hello, ${username}`}</Text>
+        {reservation && <Text>Here’s what’s next on your schedule</Text>}
+      </View>
+      {reservation ? (
+        <View style={styles.heighlightedBox}>
+          <Button
+            title="Cancel booking"
+            buttonStyle={styles.cornerButton}
+            titleStyle={styles.cornerButtonTitle}
+          />
+          <View style={{ paddingRight: 60 }}>
+            <DeskDetails
+              deskNumber={reservation.desk}
+              floor={reservation.floor}
+              building={reservation.building}
+              startTime={reservation.startTime}
+              endTime={reservation.endTime}
+              date={moment(reservation.date).format("Do MMMM")}
+            />
+          </View>
+        </View>
+      ) : (
+        <View style={styles.text}>
+          <Text h4 style={styles.text}>
+            You don't have any reservations for today
+          </Text>
+        </View>
+      )}
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+        }}
+      >
+        <Button
+          title="See calendar"
+          type="clear"
+          onPress={() => navigation.navigate("Login")}
+          style={{ flex: 1 }}
+          buttonStyle={styles.blackButtonStyle}
+          titleStyle={styles.blackTitleStyle}
+        />
+        <Button
+          title="New booking"
+          onPress={() => navigation.navigate("NewBooking")}
+          style={{ flex: 1 }}
+        />
+      </View>
+    </RoundedPage>
+  );
+};
+
+LandingPage.defaultProps = {
+  username: "User",
+  reservation: null,
+};
+
+const mapStateToProps = (state) => ({
+  username: state.user.username,
+  reservation: state.reservations.all.find((reservation) =>
+    moment(reservation.date).isSame(new Date(), "day")
+  ),
+});
+
+export default connect(mapStateToProps, null)(LandingPage);

@@ -8,6 +8,7 @@ const withRelativeMousePos =
       state = { x: null, y: null };
 
       innerRef = (el) => {
+        // console.log(el);
         this.container = el;
       };
 

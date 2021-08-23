@@ -2,7 +2,7 @@ import React from "react";
 import { View } from "react-native";
 import styled from "styled-components/native";
 
-export default styled.View`
+export default styled.Text`
   background: rgba(0, 0, 0, 0.4);
   border-radius: 5px;
   bottom: 4px;

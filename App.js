@@ -3,25 +3,36 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
+import { Provider } from "react-redux";
 import { ThemeProvider } from "react-native-elements";
 
+import store from "./store";
 import theme from "./config/theme";
+import Login from "./containers/Login";
 import LandingPage from "./containers/LandingPage";
-import Allocation from "./containers/Allocation";
+import NewBooking from "./containers/NewBooking";
 import Reservations from "./containers/Reservations";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="LandingPage">
-          <Stack.Screen name="LandingPage" component={LandingPage} />
-          <Stack.Screen name="Allocation" component={Allocation} />
-          <Stack.Screen name="Reservations" component={Reservations} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <NavigationContainer>
+          <Stack.Navigator
+            initialRouteName="Login"
+            screenOptions={{
+              headerShown: false,
+            }}
+          >
+            <Stack.Screen name="Login" component={Login} />
+            <Stack.Screen name="LandingPage" component={LandingPage} />
+            <Stack.Screen name="NewBooking" component={NewBooking} />
+            <Stack.Screen name="Reservations" component={Reservations} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </ThemeProvider>
+    </Provider>
   );
 }
