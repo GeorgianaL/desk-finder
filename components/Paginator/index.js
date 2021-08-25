@@ -5,22 +5,26 @@ import theme from "../../config/theme";
 
 const styles = StyleSheet.create({
   container: {
-    alignSelf: "flex-end",
+    justifyContent: "flex-end",
   },
 });
 
-const Paginator = ({ onClick }) => {
+const Paginator = ({ onClick, disabled }) => {
   return (
     <View style={styles.container}>
       <Icon
         reverse
-        color={theme.colors.primary}
+        color={disabled ? theme.colors.grey1 : theme.colors.primary}
         name="arrow-forward-ios"
         type="MaterialIcons"
         onPress={onClick}
       />
     </View>
   );
+};
+
+Paginator.defaultProps = {
+  disabled: false,
 };
 
 export default Paginator;

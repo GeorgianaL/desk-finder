@@ -60,6 +60,7 @@ const Input = ({
   return (
     <BaseInput
       onFocus={handleFocus}
+      onBlur={handleFocus}
       label={label}
       placeholder={placeholder}
       leftIcon={leftIcon}

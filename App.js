@@ -12,6 +12,7 @@ import Login from "./containers/Login";
 import LandingPage from "./containers/LandingPage";
 import NewBooking from "./containers/NewBooking";
 import Reservations from "./containers/Reservations";
+import Calendar from "./containers/Calendar";
 
 const Stack = createNativeStackNavigator();
 
@@ -30,6 +31,7 @@ export default function App() {
             <Stack.Screen name="LandingPage" component={LandingPage} />
             <Stack.Screen name="NewBooking" component={NewBooking} />
             <Stack.Screen name="Reservations" component={Reservations} />
+            <Stack.Screen name="Calendar" component={Calendar} />
           </Stack.Navigator>
         </NavigationContainer>
       </ThemeProvider>

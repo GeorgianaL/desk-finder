@@ -2,6 +2,7 @@ import React from "react";
 import { View } from "react-native";
 import { connect } from "react-redux";
 import { Text, Button } from "react-native-elements";
+import RoundedPage from "../../components/RoundedPage";
 import DeskDetails from "../../components/DeskDetails";
 import Paginator from "../../components/Paginator";
 import AnimatedDonutChart from "../../components/AnimatedDonutChart";
@@ -27,6 +28,7 @@ const styles = {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+    width: "100%",
   },
 };
 
@@ -39,7 +41,7 @@ const Availability = ({
   goBack,
 }) => {
   return (
-    <View style={styles.container}>
+    <RoundedPage withMenu>
       <View style={styles.chartContainer}>
         <AnimatedDonutChart percentage={availability} />
       </View>
@@ -75,10 +77,11 @@ const Availability = ({
           type="clear"
           onPress={goBack}
           titleStyle={{ color: theme.colors.secondary }}
+          style={{ flex: 1 }}
         />
         <Paginator onClick={goNextPage} />
       </View>
-    </View>
+    </RoundedPage>
   );
 };
 

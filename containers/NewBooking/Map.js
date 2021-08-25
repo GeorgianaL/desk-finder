@@ -102,6 +102,7 @@ const Map = ({ actions, mapSrc, desks, reservation, successfullyRequest }) => {
         cropHeight={Dimensions.get("window").height}
         imageWidth={430}
         imageHeight={250}
+        centerOn={{ x: 120, y: 10, scale: 3, duration: 1 }}
       >
         <Annotation
           source={mapSrc}

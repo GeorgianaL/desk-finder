@@ -4,14 +4,15 @@ import { getReservations } from "./reservations";
 import { getBuildingsAndFloors } from "./reservations";
 
 export const login =
-  ({ username, password }) =>
+  ({ email, password }) =>
   (dispatch) => {
-    // axios.post("/login", { username, password }).then((response) => {
+    // axios.post("/login", { email, password }).then((response) => {
     dispatch({
       type: actionTypes.LOG_IN_SUCCESS,
       payload: {
-        username,
+        email,
         password,
+        username: "Georgiana",
       },
     });
     dispatch(getReservations());

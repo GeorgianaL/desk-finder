@@ -1,8 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { StyleSheet, View, Dimensions } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Text, CheckBox } from "react-native-elements";
+import RoundedPage from "../../components/RoundedPage";
 import Select from "../../components/Select";
 import Paginator from "../../components/Paginator";
 import theme from "../../config/theme";
@@ -14,19 +15,9 @@ import {
 } from "../../actions";
 
 export const styles = StyleSheet.create({
-  container: {
-    backgroundColor: theme.colors.white,
-    padding: 20,
-    paddingTop: 50,
-    marginBottom: 0,
-    height: Dimensions.get("window").height - 70,
-    alignSelf: "stretch",
-    flexDirection: "column",
-    position: "relative",
-    ...theme.shadow,
-  },
+  text: {},
   center: {
-    top: "16%",
+    top: 60,
   },
   checkboxContainer: {
     backgroundColor: theme.colors.white,
@@ -63,8 +54,10 @@ const Floor = ({
   };
 
   return (
-    <View style={styles.container}>
-      <Text h3>Select building and floor</Text>
+    <RoundedPage withMenu>
+      <Text h3 style={styles.text}>
+        Select building and floor
+      </Text>
       <View style={styles.center}>
         <Select
           value={building}
@@ -87,7 +80,7 @@ const Floor = ({
       <View style={styles.paginatorContainer}>
         <Paginator onClick={goNextHandler} />
       </View>
-    </View>
+    </RoundedPage>
   );
 };
 

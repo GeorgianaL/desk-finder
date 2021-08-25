@@ -90,7 +90,7 @@ const LandingPage = ({ navigation, username, reservation }) => {
         <Button
           title="See calendar"
           type="clear"
-          onPress={() => navigation.navigate("Login")}
+          onPress={() => navigation.navigate("Calendar")}
           style={{ flex: 1 }}
           buttonStyle={styles.blackButtonStyle}
           titleStyle={styles.blackTitleStyle}

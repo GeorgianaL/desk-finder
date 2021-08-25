@@ -15,7 +15,7 @@ const Login = ({ navigation, actions }) => {
   const [password, setPassword] = useState("");
 
   const loginUser = () => {
-    actions.login({ username: email, password });
+    actions.login({ email, password });
     navigation.navigate("LandingPage");
   };
 

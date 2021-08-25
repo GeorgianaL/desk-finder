@@ -1,7 +1,8 @@
 import theme from "../config/theme";
 import moment from "moment";
 
-const format = "YYYY-MM-DD";
+// the format accepted by react-native-calendars
+export const format = "YYYY-MM-DD";
 
 export const todayDateString = moment().format(format);
 
@@ -18,6 +19,20 @@ export const today = {
 //   dateString: '2016-05-13' // date formatted as 'YYYY-MM-DD' string
 // }
 
+const getEventColor = (date) => {
+  if (moment(date, format).isBefore(moment().subtract(1, "day"))) {
+    return theme.colors.grey2;
+  }
+  return theme.colors.primary;
+};
+
+const getEventTextColor = (date) => {
+  if (moment(date, format).isBefore(moment().subtract(1, "day"))) {
+    return theme.colors.grey1;
+  }
+  return theme.colors.white;
+};
+
 const getDaysBetween = (startDateString, endDateString) => {
   let startDate = moment(startDateString, format);
   const endDate = moment(endDateString, format);
@@ -30,8 +45,8 @@ const getDaysBetween = (startDateString, endDateString) => {
     days = {
       ...days,
       [moment(startDate).format(format)]: {
-        textColor: theme.colors.white,
-        color: theme.colors.primary,
+        textColor: getEventTextColor(moment(startDate).format(format)),
+        color: getEventColor(moment(startDate).format(format)),
         startingDay: false,
         endingDay: false,
       },
@@ -46,15 +61,15 @@ const getDaysBetween = (startDateString, endDateString) => {
 export const getMarkedDates = (startDateString, endDateString = null) => {
   const markedDates = {
     [startDateString]: {
-      textColor: theme.colors.white,
-      color: theme.colors.primary,
+      textColor: getEventTextColor(startDateString),
+      color: getEventColor(startDateString),
       startingDay: true,
       endingDay: false,
     },
   };
 
   // for single day date-picker
-  if (!endDateString) {
+  if (!endDateString || startDateString === endDateString) {
     return {
       ...markedDates,
       [startDateString]: {
@@ -71,10 +86,23 @@ export const getMarkedDates = (startDateString, endDateString = null) => {
     ...markedDates,
     ...daysBetween,
     [endDateString]: {
-      textColor: theme.colors.white,
-      color: theme.colors.primary,
+      textColor: getEventTextColor(endDateString),
+      color: getEventColor(endDateString),
       startingDay: false,
       endingDay: true,
     },
   };
 };
+
+export const getMarkedDatesList = (events) =>
+  events.reduce((acc, currentEvent) => {
+    const eventMarkedDays = getMarkedDates(
+      moment(currentEvent.startDate).format(format),
+      moment(currentEvent.endDate).format(format)
+    );
+    acc = {
+      ...acc,
+      ...eventMarkedDays,
+    };
+    return acc;
+  }, {});
