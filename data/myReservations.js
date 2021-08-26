@@ -8,6 +8,7 @@ export const myReservations = [
     desk: 2,
     building: "UBC1",
     floor: 5,
+    id: 3,
   },
   {
     startDate: moment("2021-08-17", format),
@@ -15,6 +16,7 @@ export const myReservations = [
     desk: 2,
     building: "UBC1",
     floor: 4,
+    id: 2,
   },
   {
     startDate: moment("2021-08-03", format),
@@ -22,5 +24,6 @@ export const myReservations = [
     desk: 13,
     building: "UBC1",
     floor: 4,
+    id: 1,
   },
 ];

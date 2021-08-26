@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import moment from "moment";
 import { StyleSheet, View } from "react-native";
 import { Text, Button } from "react-native-elements";
+import { cancelReservation } from "../../actions";
 import RoundedPage from "../../components/RoundedPage";
 import DeskDetails from "../../components/DeskDetails";
 import theme from "../../config/theme";
@@ -49,7 +51,14 @@ const styles = StyleSheet.create({
   },
 });
 
-const LandingPage = ({ navigation, username, reservation }) => {
+const LandingPage = ({ navigation, username, reservation, actions }) => {
+  const [canceledReservation, setCanceledReservation] = useState(false);
+
+  const cancelTodayBooking = () => {
+    setCanceledReservation(true);
+    actions.cancelReservation(reservation.id);
+  };
+
   return (
     <RoundedPage>
       <View style={styles.title}>
@@ -62,6 +71,7 @@ const LandingPage = ({ navigation, username, reservation }) => {
             title="Cancel booking"
             buttonStyle={styles.cornerButton}
             titleStyle={styles.cornerButtonTitle}
+            onPress={cancelTodayBooking}
           />
           <View style={{ paddingRight: 60 }}>
             <DeskDetails
@@ -117,4 +127,13 @@ const mapStateToProps = (state) => ({
   ),
 });
 
-export default connect(mapStateToProps, null)(LandingPage);
+const mapDispatchToProps = (dispatch) => ({
+  actions: bindActionCreators(
+    {
+      cancelReservation,
+    },
+    dispatch
+  ),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(LandingPage);

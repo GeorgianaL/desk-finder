@@ -7,3 +7,4 @@ export {
   newReservationRequest,
   clearPreviousReservation,
 } from "./newReservation";
+export { cancelReservation } from "./reservations";

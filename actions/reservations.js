@@ -26,3 +26,13 @@ export const getReservations = () => (dispatch) => {
   });
   // });
 };
+
+export const cancelReservation = (id) => (dispatch) => {
+  // axios.delete("/user-reservations", id)
+  return dispatch({
+    type: actionTypes.DELETE_RESERVATION,
+    payload: {
+      id,
+    },
+  });
+};

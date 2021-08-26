@@ -13,6 +13,13 @@ const reservationsReducer = (state = initialState, action) => {
         ...state,
         ...action.payload,
       };
+    case actionTypes.DELETE_RESERVATION:
+      return {
+        ...state,
+        all: state.all.filter(
+          (reservation) => reservation.id !== action.payload.id
+        ),
+      };
 
     default:
       return state;
