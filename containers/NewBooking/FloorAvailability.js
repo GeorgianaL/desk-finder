@@ -2,6 +2,7 @@ import React from "react";
 import { View } from "react-native";
 import { connect } from "react-redux";
 import { Text, Button } from "react-native-elements";
+import Page from "../../components/Page";
 import RoundedPage from "../../components/RoundedPage";
 import DeskDetails from "../../components/DeskDetails";
 import Paginator from "../../components/Paginator";
@@ -15,7 +16,7 @@ import moment from "moment";
 const styles = {
   ...FloorStyles,
   availabilityContainer: {
-    paddingLeft: 40,
+    paddingLeft: 20,
     paddingRight: 20,
   },
   chartContainer: {
@@ -33,55 +34,56 @@ const styles = {
 };
 
 const Availability = ({
+  navigation,
   availability,
   availableCount,
   unavailableCount,
   reservation,
-  goNextPage,
   goBack,
 }) => {
   return (
-    <RoundedPage withMenu>
-      <View style={styles.chartContainer}>
-        <AnimatedDonutChart percentage={availability} />
-      </View>
-
-      <View style={styles.availabilityContainer}>
-        <Text h3>Floor Availability</Text>
-        <View style={styles.statusesContainer}>
-          <Status
-            typeLabel="Available"
-            color={theme.colors.primary}
-            count={availableCount}
-          />
-          <Status
-            typeLabel="Unavailable"
-            color={theme.colors.secondary}
-            count={unavailableCount}
-          />
+    <Page>
+      <RoundedPage withMenu>
+        <View style={styles.chartContainer}>
+          <AnimatedDonutChart percentage={availability} />
         </View>
-        <View style={styles.statusesContainer}>
-          <DeskDetails
-            floor={reservation.floor}
-            building={reservation.building}
-            startTime={reservation.startTime}
-            endTime={reservation.endTime}
-            date={reservation.date}
-          />
+        <View style={styles.availabilityContainer}>
+          <Text h3>Floor Availability</Text>
+          <View style={styles.statusesContainer}>
+            <Status
+              typeLabel="Available"
+              color={theme.colors.primary}
+              count={availableCount}
+            />
+            <Status
+              typeLabel="Unavailable"
+              color={theme.colors.secondary}
+              count={unavailableCount}
+            />
+          </View>
+          <View style={styles.statusesContainer}>
+            <DeskDetails
+              floor={reservation.floor}
+              building={reservation.building}
+              startTime={reservation.startTime}
+              endTime={reservation.endTime}
+              date={reservation.date}
+            />
+          </View>
         </View>
-      </View>
 
-      <View style={styles.statusesContainer}>
-        <Button
-          title="Cancel"
-          type="clear"
-          onPress={goBack}
-          titleStyle={{ color: theme.colors.secondary }}
-          style={{ flex: 1 }}
-        />
-        <Paginator onClick={goNextPage} />
-      </View>
-    </RoundedPage>
+        <View style={styles.statusesContainer}>
+          <Button
+            title="Cancel"
+            type="clear"
+            onPress={() => navigation.navigate("Floor")}
+            titleStyle={{ color: theme.colors.secondary }}
+            style={{ flex: 1 }}
+          />
+          <Paginator onClick={() => navigation.navigate("Map")} />
+        </View>
+      </RoundedPage>
+    </Page>
   );
 };
 

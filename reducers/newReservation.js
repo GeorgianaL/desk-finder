@@ -5,6 +5,7 @@ const initialState = {
   floor: "",
   desk: null,
   reservationIsToday: true,
+  reservation: null,
   floorAvailabilityPercent: 0,
   availableDeskCount: 0,
   unavailableDeskCount: 0,
@@ -41,7 +42,7 @@ const newReservationReducer = (state = initialState, action) => {
         ...state,
         ...action.payload,
       };
-    case actionTypes.NEW_RESERVATION_REQUEST:
+    case actionTypes.QUICK_RESERVATION_REQUEST:
       return {
         ...state,
         desk: action.payload.deskNumber,
@@ -51,6 +52,14 @@ const newReservationReducer = (state = initialState, action) => {
       return {
         ...state,
         successfullyRequest: false,
+      };
+    case actionTypes.SET_NEW_RESERVATION:
+      return {
+        ...state,
+        reservation: {
+          ...state.reservation,
+          [action.payload.field]: action.payload.value,
+        },
       };
     default:
       return state;

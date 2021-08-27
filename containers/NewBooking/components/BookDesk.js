@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { Button } from "react-native-elements";
+import { Text, Button } from "react-native-elements";
 import DeskDetails from "../../../components/DeskDetails";
 import theme from "../../../config/theme";
 
@@ -13,11 +13,17 @@ const styles = StyleSheet.create({
   blackTitleStyle: {
     color: theme.colors.black,
   },
+  message: {
+    marginBottom: 20,
+  },
 });
 
 const BookDesk = ({ reservation, onCancel, onConfirm }) => {
   return (
     <View>
+      <Text h4 style={styles.message}>
+        Create reservation?
+      </Text>
       <DeskDetails
         deskNumber={reservation.deskNumber}
         floor={reservation.floor}
@@ -30,6 +36,7 @@ const BookDesk = ({ reservation, onCancel, onConfirm }) => {
         style={{
           flexDirection: "row",
           justifyContent: "space-between",
+          marginTop: 20,
         }}
       >
         <Button

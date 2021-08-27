@@ -51,9 +51,9 @@ const Login = ({ navigation, actions }) => {
         <Button
           style={{
             backgroundColor:
-              email !== "" && password !== ""
-                ? theme.colors.primary
-                : theme.colors.grey1,
+              email === "" || password === ""
+                ? theme.colors.grey1
+                : theme.colors.primary,
           }}
           title="Log In"
           onPress={loginUser}

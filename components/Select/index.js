@@ -14,13 +14,13 @@ const styles = StyleSheet.create({
   },
   pickerStyle: {
     height: 50,
-    width: 280,
+    minWidth: 120,
   },
   itemStyle: {
     color: theme.colors.black,
     backgroundColor: theme.colors.secondary,
     justifyContent: "space-between",
-    width: Dimensions.get("window").width,
+    width: "100%",
   },
 });
 

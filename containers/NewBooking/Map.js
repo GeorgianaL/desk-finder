@@ -5,10 +5,15 @@ import { Dimensions, View } from "react-native";
 import { Text, Overlay } from "react-native-elements";
 import ImageZoom from "react-native-image-pan-zoom";
 import moment from "moment";
-import { newReservationRequest, clearPreviousReservation } from "../../actions";
+import {
+  quickReservationRequest,
+  clearPreviousReservation,
+} from "../../actions";
+import Page from "../../components/Page";
 import Annotation from "../../components/Annotation";
 import BookDesk from "./components/BookDesk";
 import SuccessfulBooking from "./components/SuccessfulBooking";
+import FailingBooking from "./components/FailingBooking";
 import theme from "../../config/theme";
 
 import mapUBC1Et4 from "../../assets/UBC1Et4.svg";
@@ -61,60 +66,62 @@ const Map = ({ actions, mapSrc, desks, reservation, successfullyRequest }) => {
   const createReservation = () => {
     const bookNumber = activePoint.id;
     // console.log(`Book desk ${bookNumber}`);
-    actions.newReservationRequest(bookNumber);
+    actions.quickReservationRequest(bookNumber);
   };
 
   console.log("map src:", mapSrc);
 
   return (
-    <View style={styles.container}>
-      {activePoint && (
-        <Overlay
-          isVisible={visible}
-          onBackdropPress={cancelDeskView}
-          overlayStyle={styles.overlayStyle}
+    <Page>
+      <View style={styles.container}>
+        {activePoint && (
+          <Overlay
+            isVisible={visible}
+            onBackdropPress={cancelDeskView}
+            overlayStyle={styles.overlayStyle}
+          >
+            {activePoint.type === "available" ? (
+              <BookDesk
+                reservation={{
+                  deskNumber: activePoint.id,
+                  ...reservation,
+                }}
+                onCancel={cancelDeskView}
+                onConfirm={createReservation}
+              />
+            ) : (
+              <FailingBooking reservation={reservation} />
+            )}
+          </Overlay>
+        )}
+        {successfullyRequest && (
+          <Overlay
+            isVisible={visible}
+            onBackdropPress={cancelDeskView}
+            overlayStyle={styles.overlayStyle}
+          >
+            <SuccessfulBooking reservation={reservation} />
+          </Overlay>
+        )}
+        <ImageZoom
+          cropWidth={Dimensions.get("window").width}
+          cropHeight={Dimensions.get("window").height}
+          imageWidth={430}
+          imageHeight={250}
+          centerOn={{ x: 120, y: 10, scale: 3, duration: 1 }}
         >
-          {activePoint.type === "available" ? (
-            <BookDesk
-              reservation={{
-                deskNumber: activePoint.id,
-                ...reservation,
-              }}
-              onCancel={cancelDeskView}
-              onConfirm={createReservation}
-            />
-          ) : (
-            <Text>{activePoint.occupiedBy}</Text>
-          )}
-        </Overlay>
-      )}
-      {successfullyRequest && (
-        <Overlay
-          isVisible={visible}
-          onBackdropPress={cancelDeskView}
-          overlayStyle={styles.overlayStyle}
-        >
-          <SuccessfulBooking reservation={reservation} />
-        </Overlay>
-      )}
-      <ImageZoom
-        cropWidth={Dimensions.get("window").width}
-        cropHeight={Dimensions.get("window").height}
-        imageWidth={430}
-        imageHeight={250}
-        centerOn={{ x: 120, y: 10, scale: 3, duration: 1 }}
-      >
-        <Annotation
-          source={mapSrc}
-          imageSize={{ width: 430, height: 250 }}
-          alt={`${reservation.floor}-${reservation.building}`}
-          annotations={desks}
-          value={{}}
-          allowTouch={false}
-          handlePointClick={handlePointClick}
-        />
-      </ImageZoom>
-    </View>
+          <Annotation
+            source={mapSrc}
+            imageSize={{ width: 430, height: 250 }}
+            alt={`${reservation.floor}-${reservation.building}`}
+            annotations={desks}
+            value={{}}
+            allowTouch={false}
+            handlePointClick={handlePointClick}
+          />
+        </ImageZoom>
+      </View>
+    </Page>
   );
 };
 
@@ -148,7 +155,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(
     {
-      newReservationRequest,
+      quickReservationRequest,
       clearPreviousReservation,
     },
     dispatch

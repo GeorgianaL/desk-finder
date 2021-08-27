@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { StyleSheet, View } from "react-native";
 import { Text, CheckBox } from "react-native-elements";
+import Page from "../../components/Page";
 import RoundedPage from "../../components/RoundedPage";
 import Select from "../../components/Select";
 import Paginator from "../../components/Paginator";
@@ -35,7 +36,7 @@ export const styles = StyleSheet.create({
 });
 
 const Floor = ({
-  goNextPage,
+  navigation,
   reservationIsToday,
   buildings,
   floors,
@@ -50,37 +51,39 @@ const Floor = ({
 
   const goNextHandler = () => {
     actions.getFloorAvailability();
-    goNextPage();
+    navigation.navigate("Availability");
   };
 
   return (
-    <RoundedPage withMenu>
-      <Text h3 style={styles.text}>
-        Select building and floor
-      </Text>
-      <View style={styles.center}>
-        <Select
-          value={building}
-          options={buildingOptions}
-          onValueChange={actions.setBuilding}
-        />
-        <Select
-          value={floor}
-          options={floors}
-          onValueChange={actions.setFloor}
-        />
-        <CheckBox
-          title="I want to book a desk for today"
-          checked={reservationIsToday}
-          containerStyle={styles.checkboxContainer}
-          textStyle={styles.checkbox}
-          onPress={() => actions.setToday(!reservationIsToday)}
-        />
-      </View>
-      <View style={styles.paginatorContainer}>
-        <Paginator onClick={goNextHandler} />
-      </View>
-    </RoundedPage>
+    <Page>
+      <RoundedPage withMenu>
+        <Text h3 style={styles.text}>
+          Select building and floor
+        </Text>
+        <View style={styles.center}>
+          <Select
+            value={building}
+            options={buildingOptions}
+            onValueChange={actions.setBuilding}
+          />
+          <Select
+            value={floor}
+            options={floors}
+            onValueChange={actions.setFloor}
+          />
+          <CheckBox
+            title="I want to book a desk for today"
+            checked={reservationIsToday}
+            containerStyle={styles.checkboxContainer}
+            textStyle={styles.checkbox}
+            onPress={() => actions.setToday(!reservationIsToday)}
+          />
+        </View>
+        <View style={styles.paginatorContainer}>
+          <Paginator onClick={goNextHandler} />
+        </View>
+      </RoundedPage>
+    </Page>
   );
 };
 

@@ -1,10 +1,8 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { Text } from "react-native-elements";
-import { AnimatedSVGPath } from "react-native-svg-animations";
 import DeskDetails from "../../../components/DeskDetails";
 import AnimatedCheckmark from "../../../components/AnimatedCheckmark";
-import theme from "../../../config/theme";
 
 const styles = StyleSheet.create({
   chartContainer: {

@@ -107,7 +107,7 @@ const LandingPage = ({ navigation, username, reservation, actions }) => {
         />
         <Button
           title="New booking"
-          onPress={() => navigation.navigate("NewBooking")}
+          onPress={() => navigation.navigate("Floor")}
           style={{ flex: 1 }}
         />
       </View>
@@ -121,7 +121,7 @@ LandingPage.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  username: state.user.username,
+  username: state.user.email,
   reservation: state.reservations.all.find((reservation) =>
     moment(reservation.date).isSame(new Date(), "day")
   ),

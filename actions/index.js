@@ -4,7 +4,8 @@ export {
   setFloor,
   setToday,
   getFloorAvailability,
-  newReservationRequest,
+  quickReservationRequest,
   clearPreviousReservation,
+  setNewReservation,
 } from "./newReservation";
 export { cancelReservation } from "./reservations";

@@ -10,13 +10,15 @@ import store from "./store";
 import theme from "./config/theme";
 import Login from "./containers/Login";
 import LandingPage from "./containers/LandingPage";
-import NewBooking from "./containers/NewBooking";
-import Reservations from "./containers/Reservations";
 import Calendar from "./containers/Calendar";
+import Hours from "./containers/Hours";
+import Floor from "./containers/NewBooking/SelectFloor";
+import Availability from "./containers/NewBooking/FloorAvailability";
+import Map from "./containers/NewBooking/Map";
 
 const Stack = createNativeStackNavigator();
 
-export default function App() {
+const App = () => {
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme}>
@@ -29,12 +31,16 @@ export default function App() {
           >
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="LandingPage" component={LandingPage} />
-            <Stack.Screen name="NewBooking" component={NewBooking} />
-            <Stack.Screen name="Reservations" component={Reservations} />
             <Stack.Screen name="Calendar" component={Calendar} />
+            <Stack.Screen name="Hours" component={Hours} />
+            <Stack.Screen name="Floor" component={Floor} />
+            <Stack.Screen name="Availability" component={Availability} />
+            <Stack.Screen name="Map" component={Map} />
           </Stack.Navigator>
         </NavigationContainer>
       </ThemeProvider>
     </Provider>
   );
-}
+};
+
+export default App;

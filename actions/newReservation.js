@@ -53,14 +53,14 @@ export const getFloorAvailability = () => (dispatch, getState) => {
   });
 };
 
-export const newReservationRequest = (deskNumber) => (dispatch, getState) => {
+export const quickReservationRequest = (deskNumber) => (dispatch, getState) => {
   const {
     newReservation: { building, floor },
   } = getState();
 
   // TODO: axios.put('/new', { reservation data })
   dispatch({
-    type: actionTypes.NEW_RESERVATION_REQUEST,
+    type: actionTypes.QUICK_RESERVATION_REQUEST,
     payload: {
       deskNumber,
       success: true,
@@ -74,5 +74,15 @@ export const newReservationRequest = (deskNumber) => (dispatch, getState) => {
 export const clearPreviousReservation = () => (dispatch) => {
   dispatch({
     type: actionTypes.CLEAR_RESERVATION_REQUEST,
+  });
+};
+
+export const setNewReservation = (field, value) => (dispatch) => {
+  dispatch({
+    type: actionTypes.SET_NEW_RESERVATION,
+    payload: {
+      field,
+      value,
+    },
   });
 };

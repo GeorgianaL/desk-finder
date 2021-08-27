@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import { View, Dimensions, StyleSheet } from "react-native";
 import { Text, Button, Icon } from "react-native-elements";
 import { CalendarList } from "react-native-calendars";
+import { setNewReservation } from "../../actions";
 import Paginator from "../../components/Paginator";
 import RoundedPage, { paddingLeftRight } from "../../components/RoundedPage";
 import {
@@ -73,7 +75,7 @@ const dateTextElement = (label, date = null) => (
   </View>
 );
 
-const Calendar = ({ navigation, reservations }) => {
+const Calendar = ({ navigation, reservations, actions }) => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
 
@@ -86,6 +88,12 @@ const Calendar = ({ navigation, reservations }) => {
       : getMarkedDates(startDate.dateString);
     markedReservations = { ...allReservations, ...currentReservation };
   }
+
+  const saveReservationDates = () => {
+    actions.setNewReservation("startDate", startDate);
+    actions.setNewReservation("endDate", endDate);
+    navigation.navigate("Hours");
+  };
 
   return (
     <View style={styles.container}>
@@ -129,7 +137,10 @@ const Calendar = ({ navigation, reservations }) => {
             titleStyle={{ color: theme.colors.secondary }}
             style={{ flex: 1 }}
           />
-          <Paginator onClick={() => null} disabled={!(startDate && endDate)} />
+          <Paginator
+            onClick={saveReservationDates}
+            disabled={!(startDate && endDate)}
+          />
         </View>
       </RoundedPage>
     </View>
@@ -144,4 +155,13 @@ const mapStateToProps = (state) => ({
   reservations: state.reservations.all,
 });
 
-export default connect(mapStateToProps, null)(Calendar);
+const mapDispatchToProps = (dispatch) => ({
+  actions: bindActionCreators(
+    {
+      setNewReservation,
+    },
+    dispatch
+  ),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Calendar);
